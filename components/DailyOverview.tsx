@@ -22,7 +22,7 @@ export default function DailyOverview({ data, regionSlug, elevation, onSelectDay
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="font-serif text-3xl font-bold tracking-wide text-white">
+          <h2 className="text-3xl font-bold tracking-wide text-white">
             {(region?.name ?? data.regionTitle).toUpperCase()}
           </h2>
           <p className="mt-1 text-sm text-white/50">

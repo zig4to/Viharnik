@@ -31,7 +31,7 @@ export default function HourlyView({ data, regionSlug, elevation, selectedDayKey
         >
           ← Nazaj na dneve
         </button>
-        <h2 className="font-serif text-3xl font-bold tracking-wide text-white">
+        <h2 className="text-3xl font-bold tracking-wide text-white">
           {(region?.name ?? data.regionTitle).toUpperCase()}
         </h2>
         <p className="mt-1 text-sm text-white/50">
@@ -68,7 +68,7 @@ export default function HourlyView({ data, regionSlug, elevation, selectedDayKey
               key={i}
               className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 shadow-md shadow-black/10 backdrop-blur-xl"
             >
-              <div className="w-14 shrink-0 font-mono text-sm text-white/70">
+              <div className="w-14 shrink-0 text-sm tabular-nums text-white/70">
                 {hourLabel(parseArsoTime(data.times[i]))}
               </div>
 

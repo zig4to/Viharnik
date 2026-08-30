@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { ForecastData } from "@/lib/fetchForecast";
 import ForecastForm, { type FormValue } from "./ForecastForm";
 import DailyOverview from "./DailyOverview";
@@ -42,9 +43,12 @@ export default function ForecastApp() {
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 p-6">
-      <header>
-        <h1 className="text-xl font-bold tracking-wide text-white">Viharnik</h1>
-        <p className="text-sm text-white/50">Pregledna gorska vremenska napoved po podatkih ARSO.</p>
+      <header className="flex items-center gap-3">
+        <Image src="/icon-192.png" alt="" width={40} height={40} priority className="rounded-xl" />
+        <div>
+          <h1 className="text-xl font-bold tracking-wide text-white">Viharnik</h1>
+          <p className="text-sm text-white/50">Pregledna gorska vremenska napoved po podatkih ARSO.</p>
+        </div>
       </header>
 
       {view === "form" && <ForecastForm initial={selection} onSubmit={handleSubmit} />}
