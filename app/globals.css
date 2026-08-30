@@ -13,16 +13,34 @@
 
 /* Aplikacija ima en, namerno temen videz - brez preklopa na svetlo temo. */
 body {
-  /* Brez background-attachment: fixed - na daljših straneh (npr. urna napoved
-     z veliko vrsticami) je to na nekaterih napravah/orodjih povzročilo, da se
-     ozadje ni pravilno preslikalo čez celotno višino strani. Privzeti "scroll"
-     razpotegne gradient čez celotno (tudi zelo dolgo) telo strani. */
-  background: radial-gradient(circle at 15% -10%, #2a2166 0%, transparent 45%),
-    radial-gradient(circle at 100% 0%, #1c2a5e 0%, transparent 40%),
-    linear-gradient(180deg, #12142c 0%, #0d0e22 55%, #0a0b1a 100%);
+  /* Gradient je na ::before, "position: fixed" in vezan na velikost zaslona
+     (100vw/100dvh), NE na body. Če bi gradient viseli neposredno na body (kot
+     prej), se pri prehodu na dolge strani (npr. urna napoved z veliko
+     vrsticami) telo raztegne in isti radial-gradient (odstotki so relativni
+     na velikost elementa) nenadoma pokrije večjo površino - vijolični del
+     zavzame drugačen delež vidnega zaslona, kar je bilo videti kot nenaden
+     "skok" barve ob preklopu pogleda. S fiksnim, na viewport vezanim slojem
+     je barva na zaslonu vedno enaka, ne glede na višino vsebine. Ne
+     uporabljamo "background-attachment: fixed" na body - to je na nekaterih
+     napravah/orodjih povzročilo, da se ozadje ni pravilno preslikalo čez
+     celotno višino strani. */
+  position: relative;
+  background: #0a0b1a;
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: -1;
+  background: radial-gradient(circle at 15% -10%, #2a2166 0%, transparent 45%),
+    radial-gradient(circle at 100% 0%, #1c2a5e 0%, transparent 40%),
+    linear-gradient(180deg, #12142c 0%, #0d0e22 55%, #0a0b1a 100%);
 }
 
 /* Vodoravni drsnik zavihkov dni brez vidne scrollbar vrstice. */
