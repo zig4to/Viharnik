@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { ForecastData } from "@/lib/fetchForecast";
 import { findRegion } from "@/lib/regions";
 import { buildDayAggregates } from "@/lib/dayAggregate";
@@ -13,10 +14,21 @@ interface Props {
   onChangeSelection: () => void;
 }
 
+// Trajanje "zasveti obrobo" animacije ob kliku (glej .day-flash v globals.css) -
+// preklop na urno napoved počakamo do konca, da je učinek viden.
+const FLASH_DURATION_MS = 320;
+
 export default function DailyOverview({ data, regionSlug, elevation, onSelectDay, onChangeSelection }: Props) {
   const region = findRegion(regionSlug);
   const days = buildDayAggregates(data, elevation);
   const approxNote = days.find((d) => d.iconIsApprox);
+  const [flashingKey, setFlashingKey] = useState<string | null>(null);
+
+  function handleSelectDay(dayKey: string) {
+    if (flashingKey) return; // klik med animacijo prejšnjega dneva se ignorira
+    setFlashingKey(dayKey);
+    setTimeout(() => onSelectDay(dayKey), FLASH_DURATION_MS);
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -47,8 +59,10 @@ export default function DailyOverview({ data, regionSlug, elevation, onSelectDay
           return (
             <button
               key={day.key}
-              onClick={() => onSelectDay(day.key)}
-              className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left shadow-lg shadow-black/20 backdrop-blur-xl transition hover:border-violet-400/40 hover:bg-white/[0.07]"
+              onClick={() => handleSelectDay(day.key)}
+              className={`flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left shadow-lg shadow-black/20 backdrop-blur-xl transition hover:border-violet-400/40 hover:bg-white/[0.07] ${
+                flashingKey === day.key ? "day-flash" : ""
+              }`}
             >
               <div className="flex min-w-0 items-center gap-3">
                 <span className="shrink-0 text-3xl">{day.icon.emoji}</span>

@@ -43,6 +43,27 @@ body::before {
     linear-gradient(180deg, #12142c 0%, #0d0e22 55%, #0a0b1a 100%);
 }
 
+/* Ob kliku na dan (pred preklopom na urno napoved) obroba kartice na kratko
+   "zasveti" v rumeni barvi - vizualna potrditev klika. */
+@keyframes day-flash {
+  0% {
+    border-color: rgba(250, 204, 21, 0);
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0);
+  }
+  35% {
+    border-color: rgba(250, 204, 21, 0.5);
+    box-shadow: 0 0 12px 1px rgba(250, 204, 21, 0.25);
+  }
+  100% {
+    border-color: rgba(250, 204, 21, 0);
+    box-shadow: 0 0 0 0 rgba(250, 204, 21, 0);
+  }
+}
+
+.day-flash {
+  animation: day-flash 320ms ease-out;
+}
+
 /* Vodoravni drsnik zavihkov dni brez vidne scrollbar vrstice. */
 .no-scrollbar {
   scrollbar-width: none;
