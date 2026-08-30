@@ -72,13 +72,13 @@ export default function HourlyView({ data, regionSlug, elevation, selectedDayKey
                 {hourLabel(parseArsoTime(data.times[i]))}
               </div>
 
-              <div className="flex flex-1 items-center gap-3">
-                <span className="text-2xl">{info.emoji}</span>
-                <div>
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <span className="shrink-0 text-2xl">{info.emoji}</span>
+                <div className="min-w-0">
                   <p className="font-semibold text-white">
                     {series?.tempC[i] ?? "–"}&nbsp;°C
                   </p>
-                  <p className="text-sm text-white/50">{info.label}</p>
+                  <p className="truncate text-sm text-white/50">{info.label}</p>
                 </div>
               </div>
 

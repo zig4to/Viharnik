@@ -13,10 +13,13 @@
 
 /* Aplikacija ima en, namerno temen videz - brez preklopa na svetlo temo. */
 body {
+  /* Brez background-attachment: fixed - na daljših straneh (npr. urna napoved
+     z veliko vrsticami) je to na nekaterih napravah/orodjih povzročilo, da se
+     ozadje ni pravilno preslikalo čez celotno višino strani. Privzeti "scroll"
+     razpotegne gradient čez celotno (tudi zelo dolgo) telo strani. */
   background: radial-gradient(circle at 15% -10%, #2a2166 0%, transparent 45%),
     radial-gradient(circle at 100% 0%, #1c2a5e 0%, transparent 40%),
     linear-gradient(180deg, #12142c 0%, #0d0e22 55%, #0a0b1a 100%);
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
