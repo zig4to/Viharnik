@@ -41,34 +41,37 @@ export default function DailyOverview({ data, regionSlug, elevation, onSelectDay
         </button>
       </div>
 
-      <div className="flex flex-col gap-3">
-        {days.map((day) => (
-          <button
-            key={day.key}
-            onClick={() => onSelectDay(day.key)}
-            className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left shadow-lg shadow-black/20 backdrop-blur-xl transition hover:border-violet-400/40 hover:bg-white/[0.07]"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-3xl">{day.icon.emoji}</span>
-              <div>
-                <p className="font-semibold text-white">{day.label}</p>
-                <p className="text-sm text-white/50">{day.icon.label}</p>
+      <div className="no-scrollbar -mx-1 flex gap-3 overflow-x-auto px-1 pb-1">
+        {days.map((day) => {
+          const [weekday, shortDate] = day.shortLabel.split(",").map((s) => s.trim());
+          return (
+            <button
+              key={day.key}
+              onClick={() => onSelectDay(day.key)}
+              className="flex w-[130px] shrink-0 flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-4 text-center shadow-lg shadow-black/20 backdrop-blur-xl transition hover:border-violet-400/40 hover:bg-white/[0.07]"
+            >
+              <div className="leading-tight">
+                <p className="text-xs font-bold tracking-wide text-white">{weekday}</p>
+                <p className="text-[11px] text-white/45">{shortDate}</p>
               </div>
-            </div>
-            <div className="flex items-center gap-5 text-right">
-              <div>
-                <p className="text-xs uppercase tracking-wide text-white/40">Veter</p>
-                <p className="font-medium text-violet-300">{day.maxWind ?? "–"} km/h</p>
-              </div>
-              <div className="min-w-[70px]">
-                <p className="text-lg font-semibold text-white">
-                  {day.maxTemp ?? "–"}° <span className="text-white/40">{day.minTemp ?? "–"}°</span>
-                </p>
-              </div>
-              <span className="text-white/30">›</span>
-            </div>
-          </button>
-        ))}
+
+              <span className="text-4xl">{day.icon.emoji}</span>
+
+              <p className="line-clamp-2 min-h-[2.2em] text-[11px] leading-tight text-white/50">
+                {day.icon.label}
+              </p>
+
+              <p className="text-base font-semibold text-white">
+                {day.maxTemp ?? "–"}° <span className="font-normal text-white/40">{day.minTemp ?? "–"}°</span>
+              </p>
+
+              <p className="flex items-center gap-1 text-xs font-medium text-violet-300">
+                <span aria-hidden>💨</span>
+                {day.maxWind ?? "–"} km/h
+              </p>
+            </button>
+          );
+        })}
       </div>
 
       {approxNote && (
