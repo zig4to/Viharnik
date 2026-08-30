@@ -1,11 +1,12 @@
 "use client";
 
-import type { ParsedForecast } from "@/lib/parseForecast";
+import type { ForecastData } from "@/lib/fetchForecast";
 import { findRegion } from "@/lib/regions";
 import { buildDayAggregates } from "@/lib/dayAggregate";
+import { fullTimestampLabel } from "@/lib/time";
 
 interface Props {
-  data: ParsedForecast;
+  data: ForecastData;
   regionSlug: string;
   elevation: number;
   onSelectDay: (dayKey: string) => void;
@@ -26,6 +27,10 @@ export default function DailyOverview({ data, regionSlug, elevation, onSelectDay
           </h2>
           <p className="mt-1 text-sm text-white/50">
             Izračun: {data.issuedAt} · {elevation} m
+          </p>
+          <p className="mt-0.5 flex items-center gap-1.5 text-xs text-white/35">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            Podatki z ARSO pridobljeni: {fullTimestampLabel(new Date(data.fetchedAt))}
           </p>
         </div>
         <button

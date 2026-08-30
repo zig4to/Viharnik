@@ -36,3 +36,14 @@ export function hourLabel(date: Date): string {
     hour12: false,
   }).format(date);
 }
+
+/** Poln datum + ura, npr. "30. 8. 2026 ob 21:45" - za prikaz, kdaj je naš strežnik nazadnje prenesel podatke. */
+export function fullTimestampLabel(date: Date): string {
+  const datePart = new Intl.DateTimeFormat("sl-SI", {
+    timeZone: TIME_ZONE,
+    day: "numeric",
+    month: "numeric",
+    year: "numeric",
+  }).format(date);
+  return `${datePart} ob ${hourLabel(date)}`;
+}

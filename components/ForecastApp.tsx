@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { ParsedForecast } from "@/lib/parseForecast";
+import type { ForecastData } from "@/lib/fetchForecast";
 import ForecastForm, { type FormValue } from "./ForecastForm";
 import DailyOverview from "./DailyOverview";
 import HourlyView from "./HourlyView";
@@ -18,7 +18,7 @@ export default function ForecastApp() {
   const [view, setView] = useState<View>("form");
   const [selection, setSelection] = useState<FormValue>(initialValue);
   const [selectedDayKey, setSelectedDayKey] = useState<string | null>(null);
-  const [data, setData] = useState<ParsedForecast | null>(null);
+  const [data, setData] = useState<ForecastData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,7 +30,7 @@ export default function ForecastApp() {
       const res = await fetch(`/api/forecast/${value.region}`);
       const body = await res.json();
       if (!res.ok) throw new Error(body.error ?? `HTTP ${res.status}`);
-      setData(body as ParsedForecast);
+      setData(body as ForecastData);
       setView("days");
     } catch (err) {
       setData(null);
