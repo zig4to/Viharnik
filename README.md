@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Viharnik
 
-## Getting Started
+Pregledna spletna aplikacija za gorsko vremensko napoved, ki podatke pridobi
+neposredno iz [ARSO](https://meteo.arso.gov.si) strani "Modelska napoved
+višinskih vrednosti" (osem gorskih območij, ki jih objavlja ARSO) in jih
+prikaže po izbranem gorovju, nadmorski višini in dnevu.
 
-First, run the development server:
+## Zakaj HTML in ne XML
+
+ARSO na strani [meteo.arso.gov.si/met/sl/service/](https://meteo.arso.gov.si/met/sl/service/)
+sicer omenja XML/RSS/HTML formate, a to velja za splošne vremenske napovedi po
+(upravnih) regijah Slovenije - ne za ta specifičen produkt gorskih napovedi.
+Za gorske napovedi ARSO objavlja samo HTML, zato jih aplikacija razčleni sama
+(glej `lib/parseForecast.ts`).
+
+## Razvoj
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Odpri [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+API endpoint: `GET /api/forecast/<REGION>`, kjer je `<REGION>` eden izmed
+slug-ov iz `lib/regions.ts` (npr. `JULIAN-ALPS`, `POHORJE`, ...).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Preizkus parserja brez omrežja
 
-## Learn More
+```bash
+npx tsx scripts/test-parse.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+Uporablja shranjen primer strani v `fixtures/forecast_SI_JULIAN-ALPS_long.html`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Struktura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/regions.ts` - fiksen seznam 8 gorskih območij in 7 višinskih nivojev modela.
+- `lib/parseForecast.ts` - razčlenjevanje ARSO HTML tabele v strukturiran JSON.
+- `lib/fetchForecast.ts` - prenos strani + predpomnilnik (45 min TTL).
+- `lib/time.ts` - pretvorba ARSO časovnih oznak v lokalni čas (Europe/Ljubljana).
+- `app/api/forecast/[region]/route.ts` - API endpoint.
+- `components/ForecastForm.tsx`, `ForecastView.tsx`, `ForecastApp.tsx` - uporabniški vmesnik.
