@@ -2,13 +2,10 @@
 
 import { useState } from "react";
 import { MOUNTAIN_REGIONS, ELEVATION_LEVELS } from "@/lib/regions";
-import { dayKey, dayLabel } from "@/lib/time";
 
 export interface FormValue {
   region: string;
   elevation: number;
-  dayKey: string;
-  dayLabel: string;
 }
 
 interface Props {
@@ -16,72 +13,43 @@ interface Props {
   onSubmit: (value: FormValue) => void;
 }
 
-function buildDayOptions() {
-  const options: { key: string; label: string }[] = [];
-  for (let offset = 0; offset < 5; offset++) {
-    const date = new Date(Date.now() + offset * 24 * 60 * 60 * 1000);
-    options.push({ key: dayKey(date), label: dayLabel(date) });
-  }
-  return options;
-}
-
 export default function ForecastForm({ initial, onSubmit }: Props) {
   const [region, setRegion] = useState(initial.region);
   const [elevation, setElevation] = useState(initial.elevation);
-  const dayOptions = buildDayOptions();
-  const [selectedDay, setSelectedDay] = useState(dayOptions[0]);
 
   return (
     <form
-      className="flex flex-wrap items-end gap-4 rounded-xl border border-black/10 bg-white/60 p-4 dark:border-white/10 dark:bg-white/5"
+      className="flex flex-col gap-5 rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-xl shadow-black/20 backdrop-blur-xl sm:flex-row sm:items-end sm:gap-4"
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit({ region, elevation, dayKey: selectedDay.key, dayLabel: selectedDay.label });
+        onSubmit({ region, elevation });
       }}
     >
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium">Gorovje</span>
+      <label className="flex flex-1 flex-col gap-2 text-sm">
+        <span className="font-medium text-white/70">Gorovje</span>
         <select
-          className="rounded-md border border-black/15 bg-white px-3 py-2 dark:border-white/20 dark:bg-black/20"
+          className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-violet-400/60"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
           {MOUNTAIN_REGIONS.map((r) => (
-            <option key={r.slug} value={r.slug}>
+            <option key={r.slug} value={r.slug} className="bg-[#171933] text-white">
               {r.name}
             </option>
           ))}
         </select>
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium">Nadmorska višina</span>
+      <label className="flex flex-1 flex-col gap-2 text-sm sm:max-w-[160px]">
+        <span className="font-medium text-white/70">Nadmorska višina</span>
         <select
-          className="rounded-md border border-black/15 bg-white px-3 py-2 dark:border-white/20 dark:bg-black/20"
+          className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-violet-400/60"
           value={elevation}
           onChange={(e) => setElevation(Number(e.target.value))}
         >
           {ELEVATION_LEVELS.map((lvl) => (
-            <option key={lvl} value={lvl}>
+            <option key={lvl} value={lvl} className="bg-[#171933] text-white">
               {lvl} m
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium">Dan</span>
-        <select
-          className="rounded-md border border-black/15 bg-white px-3 py-2 dark:border-white/20 dark:bg-black/20"
-          value={selectedDay.key}
-          onChange={(e) => {
-            const found = dayOptions.find((d) => d.key === e.target.value);
-            if (found) setSelectedDay(found);
-          }}
-        >
-          {dayOptions.map((d) => (
-            <option key={d.key} value={d.key}>
-              {d.label}
             </option>
           ))}
         </select>
@@ -89,7 +57,7 @@ export default function ForecastForm({ initial, onSubmit }: Props) {
 
       <button
         type="submit"
-        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+        className="rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-900/40 transition hover:from-violet-400 hover:to-indigo-400"
       >
         Prikaži napoved
       </button>
