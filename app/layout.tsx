@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Rubik } from "next/font/google";
+import Script from "next/script";
 import RegisterServiceWorker from "@/components/RegisterServiceWorker";
 import "./globals.css";
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         {children}
         <RegisterServiceWorker />
+        <Script src="/install-promo.js" strategy="afterInteractive" />
       </body>
     </html>
   );
