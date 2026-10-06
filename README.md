@@ -20,7 +20,7 @@ npm install
 npm run dev
 ```
 
-Odpri [http://localhost:3000](http://localhost:3000).
+Odpri [http://localhost:3003](http://localhost:3003).
 
 API endpoint: `GET /api/forecast/<REGION>`, kjer je `<REGION>` eden izmed
 slug-ov iz `lib/regions.ts` (npr. `JULIAN-ALPS`, `POHORJE`, ...).
