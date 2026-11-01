@@ -2,7 +2,7 @@
 // in da lupina (statične datoteke) deluje tudi brez povezave.
 // Vremenskih podatkov (/api/...) namenoma NE predpomni - vedno morajo priti sveži z ARSO.
 
-const CACHE_NAME = "viharnik-shell-v2";
+const CACHE_NAME = "viharnik-shell-v3";
 const SHELL_URLS = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png", "/install-promo.js"];
 
 self.addEventListener("install", (event) => {
