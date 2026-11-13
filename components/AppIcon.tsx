@@ -1,5 +1,5 @@
 // Ikona aplikacije - oblak z bliskom, ista glifa in barvna shema (#6d5cf5 -> #facc15)
-// kot ikona za Viharnik na TomsStudios (glej TomsStudios/index.html).
+// kot ikona za Viharnik na Bitneverse (glej TomsStudios/index.html).
 // Uporablja se v headerju in za generiranje favicon/PWA ikon (glej public/icon-*.png, app/favicon.ico).
 export default function AppIcon({ size = 40 }: { size?: number }) {
   return (
